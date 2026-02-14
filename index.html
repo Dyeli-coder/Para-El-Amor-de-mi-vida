@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Usted</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0d1025;
+    color: white;
+    overflow-x: hidden;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.contenido {
+    max-width: 700px;
+    margin: 120px auto;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+p {
+    line-height: 1.9em;
+    font-size: 1.1em;
+}
+
+button {
+    margin-top: 25px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    background: #ff6b81;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff4757;
+}
+
+.mensaje {
+    margin-top: 40px;
+    display: none;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="estrellas"></canvas>
+
+<div class="contenido">
+    <h1>Si miras al cielo esta noche… estoy contigo ✨</h1>
+    <p>Cada estrella representa un momento con usted.</p>
+    <button onclick="mostrar()">Descúbrelo</button>
+
+    <div class="mensaje" id="mensaje">
+        <p>
+        Hoy no quería hacer algo simple.
+        Quería decirle lo que mi corazón siente por usted.
+        </p>
+
+        <p>
+        No soy el mejor diciendo cosas enormes,
+        pero sí soy sincero cuando alguien me importa.
+        Y usted me importa.
+        </p>
+
+        <p>
+        Me gusta estar con usted.
+        Me gusta cómo piensa,
+        cómo habla,
+        cómo siente.
+        </p>
+
+        <p>
+        Me gusta cuando se ríe.
+        Me gusta cuando se pone seria.
+        Incluso me gusta cuando me contradice,
+        porque todo en usted tiene algo que me mueve.
+        </p>
+
+        <p>
+        No necesito que todo sea perfecto.
+        Me basta con que sea usted.
+        Con su forma de ser,
+        con su manera de estar,
+        con lo que provoca en mí sin siquiera intentarlo.
+        </p>
+
+        <p>
+        A veces no digo todo lo que siento,
+        pero eso no significa que no lo sienta fuerte.
+        Hay cosas que se quedan aquí,
+        pero usted logra que salgan.
+        </p>
+
+        <p>
+        Hoy solo quiero que sepa que 
+        me alegra tenerla en mi vida.
+        </p>
+
+        <p>
+        Y si pudiera elegir otra vez,
+        la elegiría a usted.
+        Sin pensarlo.
+        </p>
+
+        <h2>
+        Feliz día del cariño, mi vida.
+        Me alegra tenerla conmigo.
+        </h2>
+
+        <button onclick="toggleMusica()">🎵 Pausar / Reproducir música</button>
+    </div>
+</div>
+
+<audio id="musica" loop>
+    <source src="Morat - Aprender A Quererte.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// MUSICA
+const audio = document.getElementById("musica");
+let reproduciendo = false;
+
+function mostrar(){
+    document.getElementById("mensaje").style.display="block";
+    if(!reproduciendo){
+        audio.volume = 0.3;
+        audio.play();
+        reproduciendo = true;
+    }
+}
+
+function toggleMusica(){
+    if(audio.paused){
+        audio.play();
+    } else {
+        audio.pause();
+    }
+}
+
+// ESTRELLAS
+const canvas = document.getElementById("estrellas");
+const ctx = canvas.getContext("2d");
+
+function ajustarCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+ajustarCanvas();
+window.addEventListener("resize", ajustarCanvas);
+
+let estrellas = [];
+
+for(let i=0; i<150; i++){
+    estrellas.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radio: Math.random() * 1.5,
+        velocidad: Math.random() * 0.5
+    });
+}
+
+function animar(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "white";
+
+    estrellas.forEach(e => {
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.radio, 0, Math.PI*2);
+        ctx.fill();
+
+        e.y += e.velocidad;
+        if(e.y > canvas.height){
+            e.y = 0;
+            e.x = Math.random() * canvas.width;
+        }
+    });
+
+    requestAnimationFrame(animar);
+}
+
+animar();
+</script>
+
+</body>
+</html>
+
+
